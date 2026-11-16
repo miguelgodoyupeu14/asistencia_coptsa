@@ -1,0 +1,8 @@
+package pe.com.asistencia.request.domain;
+import jakarta.persistence.*; import pe.com.asistencia.employee.domain.Employee; import pe.com.asistencia.attendance.domain.AttendanceDay; import java.time.*;
+@Entity @Table(name="incidents")
+public class Incident {
+ @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @ManyToOne(fetch=FetchType.LAZY,optional=false) @JoinColumn(name="employee_id") private Employee employee; @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="attendance_day_id") private AttendanceDay attendanceDay; @Column(name="incident_type",nullable=false) private String type; @Column(nullable=false,length=500) private String description; @Column(nullable=false) private String status="OPEN"; @Column(nullable=false) private String source; @Column(name="occurred_on",nullable=false) private LocalDate occurredOn; @Column(name="created_at",insertable=false,updatable=false) private Instant createdAt;
+ protected Incident(){} public Incident(Employee e,String type,String description,String source,LocalDate date){this(e,null,type,description,source,date);} public Incident(Employee e,AttendanceDay day,String type,String description,String source,LocalDate date){employee=e;attendanceDay=day;this.type=type;this.description=description;this.source=source;occurredOn=date;}
+ public void close(){status="CLOSED";} public Long getId(){return id;} public Employee getEmployee(){return employee;} public AttendanceDay getAttendanceDay(){return attendanceDay;} public String getType(){return type;} public String getDescription(){return description;} public String getStatus(){return status;} public String getSource(){return source;} public LocalDate getOccurredOn(){return occurredOn;} public Instant getCreatedAt(){return createdAt;}
+}

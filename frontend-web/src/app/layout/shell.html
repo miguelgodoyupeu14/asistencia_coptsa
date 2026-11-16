@@ -1,0 +1,146 @@
+<div class="app-shell" [class.compact]="collapsed()">
+  <aside [class.open]="menuOpen()">
+    <div class="brand">
+      <span>SA</span>
+      <div class="brand-copy">Sistema de Asistencia<small>Control empresarial</small></div>
+    </div>
+    <nav (click)="close()">
+      <a routerLink="/dashboard" routerLinkActive="active" title="Resumen"
+        ><app-icon name="dashboard" /><span>Resumen</span></a
+      >
+      <a routerLink="/attendance" routerLinkActive="active" title="Mi asistencia"
+        ><app-icon name="clock" /><span>Mi asistencia</span></a
+      >
+      <a routerLink="/requests" routerLinkActive="active" title="Mis solicitudes"
+        ><app-icon name="file" /><span>Mis solicitudes</span></a
+      >
+      @if (auth.hasAnyRole(['ADMIN', 'SUPERVISOR'])) {
+        <div class="section">Gestión</div>
+        <a routerLink="/request-review" routerLinkActive="active" title="Revisar solicitudes"
+          ><app-icon name="audit" /><span>Revisar solicitudes</span></a
+        >
+        <a
+          routerLink="/attendance-contingency"
+          routerLinkActive="active"
+          title="Asistencia de contingencia"
+          ><app-icon name="clock" /><span>Asistencia de contingencia</span></a
+        >
+        <a routerLink="/employees" routerLinkActive="active" title="Empleados"
+          ><app-icon name="users" /><span>Empleados</span></a
+        >
+        <a routerLink="/schedules" routerLinkActive="active" title="Horarios"
+          ><app-icon name="calendar" /><span>Horarios</span></a
+        >
+        <a routerLink="/incidents" routerLinkActive="active" title="Incidencias"
+          ><app-icon name="alert" /><span>Incidencias</span></a
+        >
+        <a routerLink="/reports" routerLinkActive="active" title="Reportes"
+          ><app-icon name="chart" /><span>Reportes</span></a
+        >
+      }
+      @if (auth.hasAnyRole(['ADMIN'])) {
+        <div class="section">Administración</div>
+        <a routerLink="/setup" routerLinkActive="active" title="Asignaciones"
+          ><app-icon name="grid" /><span>Asignaciones</span></a
+        >
+        <a routerLink="/users" routerLinkActive="active" title="Usuarios"
+          ><app-icon name="user" /><span>Usuarios</span></a
+        >
+        <a routerLink="/attendance-security" routerLinkActive="active" title="Seguridad"
+          ><app-icon name="shield" /><span>Seguridad</span></a
+        >
+        <a routerLink="/sites" routerLinkActive="active" title="Sedes"
+          ><app-icon name="building" /><span>Sedes</span></a
+        >
+        <a routerLink="/areas" routerLinkActive="active" title="Áreas"
+          ><app-icon name="grid" /><span>Áreas</span></a
+        >
+        <a routerLink="/positions" routerLinkActive="active" title="Cargos"
+          ><app-icon name="briefcase" /><span>Cargos</span></a
+        >
+        <a routerLink="/audit" routerLinkActive="active" title="Auditoría"
+          ><app-icon name="audit" /><span>Auditoría</span></a
+        >
+      }
+    </nav>
+  </aside>
+  @if (menuOpen()) {
+    <button class="backdrop" aria-label="Cerrar menú" (click)="close()"></button>
+  }
+  <main>
+    <header>
+      <button class="icon-button menu" aria-label="Abrir menú" (click)="toggle()">
+        <app-icon name="menu" />
+      </button>
+      <button
+        class="icon-button collapse-control"
+        (click)="toggleCollapsed()"
+        [attr.aria-label]="collapsed() ? 'Expandir menú' : 'Contraer menú'"
+        [title]="collapsed() ? 'Expandir menú' : 'Contraer menú'"
+      >
+        <app-icon [name]="collapsed() ? 'expand' : 'collapse'" />
+      </button>
+      <div class="header-actions">
+        @if (auth.hasAnyRole(['EMPLOYEE'])) {
+          <button
+            class="icon-button"
+            [class.notifications-on]="browserNotifications()"
+            (click)="enableNotifications()"
+            [title]="
+              browserNotifications()
+                ? 'Avisos del navegador activados'
+                : 'Activar avisos del navegador'
+            "
+            [attr.aria-label]="
+              browserNotifications()
+                ? 'Avisos del navegador activados'
+                : 'Activar avisos del navegador'
+            "
+          >
+            <app-icon name="bell" />
+          </button>
+        }
+        <button
+          class="icon-button"
+          (click)="theme.toggle()"
+          [title]="theme.theme() === 'light' ? 'Usar tema oscuro' : 'Usar tema claro'"
+        >
+          <app-icon [name]="theme.theme() === 'light' ? 'moon' : 'sun'" />
+        </button>
+        <div class="identity">
+          <span class="avatar">{{ auth.username().slice(0, 1).toUpperCase() }}</span>
+          <div class="user">
+            <strong>{{ auth.username() }}</strong
+            ><small>{{ auth.roles().join(' · ') }}</small>
+          </div>
+        </div>
+        <button class="icon-button logout" title="Cerrar sesión" (click)="auth.logout()">
+          <app-icon name="logout" />
+        </button>
+      </div>
+    </header>
+    @if (notificationMessage()) {
+      <div class="notification-feedback" role="status">
+        <span>{{ notificationMessage() }}</span>
+        <button aria-label="Cerrar aviso" (click)="notificationMessage.set('')">×</button>
+      </div>
+    }
+    @if (reminder(); as alert) {
+      <a
+        class="shift-reminder"
+        [class.warning]="alert.tone === 'warning'"
+        [class.urgent]="alert.tone === 'urgent'"
+        routerLink="/attendance"
+        aria-live="polite"
+      >
+        <span class="reminder-icon"><app-icon name="bell" /></span>
+        <span
+          ><strong>{{ alert.title }}</strong
+          ><small>{{ alert.detail }}</small></span
+        >
+        <span class="reminder-action">Ver asistencia →</span>
+      </a>
+    }
+    <section class="content"><router-outlet /></section>
+  </main>
+</div>

@@ -1,0 +1,8 @@
+package pe.com.asistencia.audit.config;
+import jakarta.servlet.*; import jakarta.servlet.http.*; import org.springframework.stereotype.Component; import org.springframework.web.filter.OncePerRequestFilter; import pe.com.asistencia.audit.domain.AuditLog; import pe.com.asistencia.audit.repository.AuditLogRepository; import java.io.IOException; import java.time.Instant; import java.util.UUID;
+@Component public class HttpAuditFilter extends OncePerRequestFilter {
+ private final AuditLogRepository logs; public HttpAuditFilter(AuditLogRepository logs){this.logs=logs;}
+ @Override protected boolean shouldNotFilter(HttpServletRequest r){return r.getRequestURI().startsWith("/actuator")||"GET".equals(r.getMethod());}
+ @Override protected void doFilterInternal(HttpServletRequest req,HttpServletResponse res,FilterChain chain)throws ServletException,IOException{long start=System.nanoTime();String correlation=OptionalHeader.value(req.getHeader("X-Correlation-ID"));res.setHeader("X-Correlation-ID",correlation);try{chain.doFilter(req,res);}finally{try{String user=req.getUserPrincipal()==null?null:req.getUserPrincipal().getName();String forwarded=req.getHeader("X-Forwarded-For");String ip=forwarded==null?req.getRemoteAddr():forwarded.split(",")[0].trim();logs.save(new AuditLog(Instant.now(),user,req.getMethod(),req.getRequestURI(),res.getStatus(),ip,(System.nanoTime()-start)/1_000_000,correlation));}catch(RuntimeException ignored){}}}
+ private static final class OptionalHeader{static String value(String value){return value==null||value.isBlank()?UUID.randomUUID().toString():value.substring(0,Math.min(64,value.length()));}}
+}

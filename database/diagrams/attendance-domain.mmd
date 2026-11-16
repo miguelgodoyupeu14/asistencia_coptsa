@@ -1,0 +1,27 @@
+erDiagram
+    USUARIO ||--o{ USUARIO_ROL : posee
+    ROL ||--o{ USUARIO_ROL : asignado
+    USUARIO o|--o| EMPLEADO : habilita
+
+    EMPLEADO ||--o{ ASIGNACION_EMPLEADO : tiene
+    SEDE ||--o{ ASIGNACION_EMPLEADO : recibe
+    AREA ||--o{ ASIGNACION_EMPLEADO : agrupa
+    CARGO ||--o{ ASIGNACION_EMPLEADO : define
+
+    HORARIO ||--|{ TURNO : contiene
+    EMPLEADO ||--o{ ASIGNACION_HORARIO : recibe
+    HORARIO ||--o{ ASIGNACION_HORARIO : asignado
+
+    EMPLEADO ||--o{ JORNADA_ASISTENCIA : posee
+    EMPLEADO ||--o{ MARCACION : registra
+    JORNADA_ASISTENCIA o|--o{ MARCACION : agrupa
+
+    EMPLEADO ||--o{ INCIDENCIA : presenta
+    JORNADA_ASISTENCIA o|--o{ INCIDENCIA : origina
+    INCIDENCIA ||--o{ JUSTIFICACION : recibe
+    EMPLEADO ||--o{ PERMISO : solicita
+    EMPLEADO ||--o{ SOLICITUD_CORRECCION : solicita
+    JORNADA_ASISTENCIA o|--o{ SOLICITUD_CORRECCION : revisada
+    MARCACION o|--o{ SOLICITUD_CORRECCION : revisada
+
+    USUARIO o|--o{ REGISTRO_AUDITORIA : ejecuta

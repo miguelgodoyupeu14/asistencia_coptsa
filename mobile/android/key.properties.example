@@ -1,0 +1,4 @@
+storePassword=replace_me
+keyPassword=replace_me
+keyAlias=attendance_release
+storeFile=C:/secure/path/attendance-release.jks

@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:asistencia;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+logging:
+  level:
+    root: WARN
+    pe.com.asistencia: INFO
+
+app:
+  time-zone: America/Lima
+  cors:
+    allowed-origins: http://localhost:4200
+  attendance:
+    entry-tolerance-minutes: 5
+    exit-tolerance-minutes: 0
+    entry-open-before-minutes: 60
+    entry-close-after-minutes: 120
+    exit-close-after-minutes: 180
+    max-location-accuracy-meters: 100
+  security:
+    jwt:
+      issuer: asistencia-api-test
+      secret: dGVzdC1zZWNyZXQtbXVzdC1iZS1hdC1sZWFzdC0zMi1ieXRlcw==
+      access-token-minutes: 15
+  bootstrap-admin:
+    username: ""
+    password: ""

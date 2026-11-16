@@ -1,0 +1,16 @@
+package pe.com.asistencia.organization.domain;
+import jakarta.persistence.*; import java.math.BigDecimal;
+@Entity @Table(name="sites")
+public class Site {
+ @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id;
+ @Column(nullable=false,unique=true,length=40) private String code;
+ @Column(nullable=false,length=150) private String name;
+ private String address;
+ @Column(name="time_zone",nullable=false,length=60) private String timeZone;
+ @Column(precision=10,scale=7) private BigDecimal latitude; @Column(precision=10,scale=7) private BigDecimal longitude; @Column(nullable=false) private boolean active=true;
+ @Column(name="geofence_radius_m") private Integer geofenceRadiusM; @Column(name="require_geofence",nullable=false) private boolean requireGeofence; @Column(name="require_registered_device",nullable=false) private boolean requireRegisteredDevice; @Column(name="require_dynamic_qr",nullable=false) private boolean requireDynamicQr; @Column(name="allowed_wifi_bssid",length=32) private String allowedWifiBssid; @Column(name="require_wifi",nullable=false) private boolean requireWifi;
+ protected Site(){} public Site(String code,String name,String address,String timeZone,Double latitude,Double longitude){this.code=code.toUpperCase();this.name=name;this.address=address;this.timeZone=timeZone;this.latitude=decimal(latitude);this.longitude=decimal(longitude);}
+ public Long getId(){return id;} public String getCode(){return code;} public String getName(){return name;} public String getAddress(){return address;} public String getTimeZone(){return timeZone;} public Double getLatitude(){return latitude==null?null:latitude.doubleValue();} public Double getLongitude(){return longitude==null?null:longitude.doubleValue();} public boolean isActive(){return active;}
+ public void update(String name,String address,String timeZone,Double latitude,Double longitude,boolean active){this.name=name;this.address=address;this.timeZone=timeZone;this.latitude=decimal(latitude);this.longitude=decimal(longitude);this.active=active;} private static BigDecimal decimal(Double value){return value==null?null:BigDecimal.valueOf(value);}
+ public Integer getGeofenceRadiusM(){return geofenceRadiusM;} public boolean isRequireGeofence(){return requireGeofence;} public boolean isRequireRegisteredDevice(){return requireRegisteredDevice;} public boolean isRequireDynamicQr(){return requireDynamicQr;} public String getAllowedWifiBssid(){return allowedWifiBssid;} public boolean isRequireWifi(){return requireWifi;} public void configureSecurity(Integer radius,boolean geofence,boolean device,boolean qr,String wifiBssid,boolean wifi){if(geofence&&(latitude==null||longitude==null||radius==null||radius<=0))throw new IllegalArgumentException("La geocerca requiere coordenadas y radio positivo");if(wifi&&(wifiBssid==null||wifiBssid.isBlank()))throw new IllegalArgumentException("La validación Wi-Fi requiere el BSSID del punto de acceso");geofenceRadiusM=radius;requireGeofence=geofence;requireRegisteredDevice=device;requireDynamicQr=qr;allowedWifiBssid=normalizeBssid(wifiBssid);requireWifi=wifi;} private static String normalizeBssid(String value){return value==null||value.isBlank()?null:value.trim().toUpperCase();}
+}

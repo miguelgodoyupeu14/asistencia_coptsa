@@ -1,0 +1,15 @@
+{
+  "info": {"name": "Sistema de Asistencia", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8080/api/v1"},
+    {"key": "token", "value": ""}
+  ],
+  "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{token}}", "type": "string"}]},
+  "item": [
+    {"name": "Login", "request": {"auth": {"type": "noauth"}, "method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"replace_me\"\n}"}, "url": "{{baseUrl}}/auth/login"}},
+    {"name": "Health", "request": {"auth": {"type": "noauth"}, "method": "GET", "url": "http://localhost:8080/actuator/health"}},
+    {"name": "My profile", "request": {"method": "GET", "url": "{{baseUrl}}/profile/me"}},
+    {"name": "Punch entry", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"type\": \"ENTRY\",\n  \"channel\": \"POSTMAN\"\n}"}, "url": "{{baseUrl}}/attendance/punch"}},
+    {"name": "Attendance report", "request": {"method": "GET", "url": "{{baseUrl}}/reports/attendance-summary?from=2026-09-01&to=2026-09-30"}}
+  ]
+}

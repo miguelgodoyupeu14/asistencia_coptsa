@@ -1,0 +1,427 @@
+.app-shell {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  transition: grid-template-columns 0.25s;
+}
+.app-shell.compact {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+aside {
+  background: linear-gradient(175deg, #0a1931, #0e2949 72%, #17446d);
+  color: #fff;
+  padding: 1.25rem 0.9rem;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 8px 0 30px rgba(10, 25, 49, 0.08);
+  z-index: 9;
+}
+.brand {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  margin: 0.15rem 0.45rem 2rem;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.brand > span {
+  display: grid;
+  place-items: center;
+  width: 45px;
+  height: 45px;
+  flex: 0 0 45px;
+  border-radius: 14px;
+  background: var(--ice);
+  color: var(--navy);
+  box-shadow: 0 8px 20px #0003;
+  font-size: 0.88rem;
+}
+.brand small {
+  display: block;
+  color: var(--sky);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+.brand-copy {
+  transition: opacity 0.18s;
+}
+nav {
+  display: grid;
+  gap: 0.28rem;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+nav::-webkit-scrollbar {
+  display: none;
+}
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #c8d9e8;
+  text-decoration: none;
+  padding: 0.72rem 0.85rem;
+  border-radius: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: 0.18s;
+}
+nav a app-icon {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+}
+nav a:hover {
+  color: white;
+  background: #ffffff0d;
+  transform: translateX(2px);
+}
+nav a.active {
+  color: #0a1931;
+  background: #f6fafd;
+  box-shadow: 0 8px 22px #0002;
+}
+.section {
+  margin: 1.25rem 0.85rem 0.35rem;
+  color: #7fa1bc;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.collapse-control {
+  margin-right: auto;
+  background: var(--white);
+  color: var(--blue);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.collapse-control app-icon {
+  width: 18px;
+  height: 18px;
+}
+.collapse-control:hover:not(:disabled) {
+  background: var(--sky);
+  color: var(--navy);
+}
+.compact aside {
+  padding-inline: 0.7rem;
+}
+.compact .brand {
+  justify-content: center;
+  margin: 0.15rem 0 1.75rem;
+}
+.compact .brand > span {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+  border-radius: 13px;
+}
+.compact .brand-copy,
+.compact nav a span {
+  display: none;
+}
+.compact .section {
+  width: 38px;
+  height: 1px;
+  margin: 0.85rem auto;
+  background: #ffffff17;
+  color: transparent;
+}
+.compact nav a {
+  width: 48px;
+  height: 48px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
+  border-radius: 13px;
+}
+.compact nav a:hover {
+  transform: none;
+}
+main {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+header {
+  height: 76px;
+  padding: 0 clamp(1rem, 3vw, 2.2rem);
+  background: color-mix(in srgb, var(--ice) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+header .identity {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-left: 0.35rem;
+}
+header .avatar {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  border-radius: 12px;
+  background: var(--sky);
+  color: var(--navy);
+  font-weight: 800;
+}
+header .user {
+  display: grid;
+}
+header small {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: capitalize;
+}
+.icon-button {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  padding: 0;
+  background: var(--white);
+  color: var(--blue);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.icon-button:hover:not(:disabled) {
+  background: var(--sky);
+  color: var(--navy);
+}
+.logout {
+  color: var(--danger);
+}
+.content {
+  width: 100%;
+  padding: clamp(1.1rem, 3vw, 2.2rem);
+  max-width: 1500px;
+  margin: auto;
+}
+.menu,
+.backdrop {
+  display: none;
+}
+.notifications-on {
+  color: #176b51;
+  background: color-mix(in srgb, #56d5a7 18%, var(--white));
+  border-color: color-mix(in srgb, #56d5a7 50%, var(--line));
+}
+.notification-feedback {
+  position: fixed;
+  top: 88px;
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: min(430px, calc(100vw - 2rem));
+  padding: 0.8rem 0.9rem 0.8rem 1rem;
+  color: var(--navy);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(10, 25, 49, 0.16);
+  font-size: 0.86rem;
+}
+.notification-feedback button {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  font-size: 1.25rem;
+}
+.shift-reminder {
+  position: sticky;
+  top: 76px;
+  z-index: 7;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0.8rem clamp(1rem, 3vw, 2.2rem);
+  color: var(--navy);
+  background: color-mix(in srgb, var(--sky) 88%, var(--white));
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 24%, var(--line));
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(10, 25, 49, 0.08);
+}
+.shift-reminder.warning {
+  background: color-mix(in srgb, #f4c768 24%, var(--white));
+  border-bottom-color: color-mix(in srgb, #b57a0b 38%, var(--line));
+}
+.shift-reminder.urgent {
+  background: color-mix(in srgb, #ed8d85 18%, var(--white));
+  border-bottom-color: color-mix(in srgb, var(--danger) 38%, var(--line));
+}
+.reminder-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--blue);
+  background: color-mix(in srgb, var(--white) 72%, transparent);
+  border-radius: 11px;
+}
+.shift-reminder > span:nth-child(2) {
+  display: grid;
+  gap: 0.1rem;
+}
+.shift-reminder strong {
+  font-size: 0.9rem;
+}
+.shift-reminder small {
+  color: color-mix(in srgb, var(--navy) 68%, var(--muted));
+  font-size: 0.78rem;
+}
+.reminder-action {
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .app-shell,
+  .app-shell.compact {
+    display: block;
+  }
+  .compact .brand {
+    justify-content: flex-start;
+    margin: 0.15rem 0.45rem 2rem;
+  }
+  .compact .brand > span {
+    width: 45px;
+    height: 45px;
+    flex-basis: 45px;
+  }
+  .compact .brand-copy,
+  .compact nav a span {
+    display: block;
+  }
+  .compact .section {
+    width: auto;
+    height: auto;
+    margin: 1.25rem 0.85rem 0.35rem;
+    background: none;
+    color: #7fa1bc;
+  }
+  .compact nav a {
+    width: auto;
+    height: auto;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0.72rem 0.85rem;
+  }
+  aside,
+  .compact aside {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    z-index: 20;
+    left: -280px;
+    transition: left 0.25s;
+    width: 260px;
+    padding: 1.35rem 1rem;
+    overflow: hidden;
+  }
+  aside.open {
+    left: 0;
+  }
+  .collapse-control {
+    display: none;
+  }
+  .menu {
+    display: inline-flex;
+    margin-right: auto;
+  }
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: #07152b99;
+    border: 0;
+    border-radius: 0;
+  }
+  .content {
+    padding: 1rem;
+  }
+  header {
+    height: 68px;
+    padding: 0 1rem;
+  }
+  header .user {
+    display: none;
+  }
+  .shift-reminder {
+    top: 68px;
+  }
+}
+@media (max-width: 480px) {
+  header .identity {
+    display: none;
+  }
+  .header-actions {
+    gap: 0.45rem;
+  }
+  .content {
+    padding: 0.85rem;
+  }
+  .icon-button {
+    width: 39px;
+    min-width: 39px;
+    height: 39px;
+  }
+  .notification-feedback {
+    top: 78px;
+    right: 0.75rem;
+    max-width: calc(100vw - 1.5rem);
+  }
+  .shift-reminder {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 0.68rem 0.85rem;
+  }
+  .shift-reminder small {
+    display: none;
+  }
+  .reminder-action {
+    grid-column: 2;
+    font-size: 0.75rem;
+  }
+}
